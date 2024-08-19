@@ -1,0 +1,21 @@
+{
+    "manifest_version": 3,
+    "name": "Willhaben Price Viewer",
+    "description": "Base Level Extension",
+    "version": "1.0",
+    "action": {
+      "default_popup": "test.html",
+      "default_icon": "icon.png"
+    },
+    "permissions": [
+        "activeTab"
+      ],
+    "content_scripts": [
+        {
+          "js": ["scripts/content.js"],
+          "matches": [
+            "https://www.willhaben.at/iad/immobilien/*"
+          ]
+        }
+      ]
+  }
