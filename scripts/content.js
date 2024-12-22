@@ -84,7 +84,7 @@ function updatePricesPerM2(node) {
         }else if(site == "immoweb"){
             areas[i].appendChild(newElement);
         }
-        console.log(prices[i].parentElement.parentElement.children[0].childElementCount);
+        // console.log(prices[i].parentElement.parentElement.children[0].childElementCount);
 
         // also remove the first childelement (of the prices[i] parent element) (which is the vendor info)
         if(site == "willhaben"){
@@ -133,30 +133,19 @@ if (loaded_site.indexOf("willhaben.at") != -1) {
         });
     };
 
+    // Function to call updateAllPrices with a delay
+    let isCooldown = false;
+    const updateAllPricesWithDelay = () => {
+        setTimeout(() => {
+            updateAllPrices();
+            isCooldown = false;
+        }, 1000); // TODO change to listener on #main-content
+    };
+
     // Initial call to update prices per m² for existing elements
     updateAllPrices();
     
-    // Set up a MutationObserver to watch for changes in the DOM
-    const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-            mutation.addedNodes.forEach((node) => {
-                if (node.classList && node.classList.contains('.search-results__item')){
-                    updatePricesPerM2(node);
-                }});
-        });
-    });
-    
-    // Start observing the target node for configured mutations
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    // Add event listeners to filter buttons to update prices when filters are applied
-    // TODO fix this; currently €/m² is not updated when filters are applied (should do this by detecting click?/change in DOM?)
-    document.querySelectorAll('quick-filter').forEach((button) => {
-        button.addEventListener('click', () => {
-            // wait for the results to load
-            setTimeout(() => {
-                updateAllPrices();
-            }, 3000);
-        });
+    window.navigation.addEventListener("navigate", (event) => {
+        updateAllPricesWithDelay(); // update upon navigation (URL changes when searching)
     });
 }

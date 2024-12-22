@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "ImmoSQM",
-    "description": "Base Level Extension",
+    "description": "Calculates and displays price per square meter for popular immo websites.",
     "version": "1.0",
     "action": {
       "default_popup": "test.html",
